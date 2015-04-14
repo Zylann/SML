@@ -8,7 +8,8 @@ int main(int argc, char* argv[])
 {
 	std::cout << "Hello World!" << std::endl;
 
-	std::ifstream ifs("test.sml", std::ios::in|std::ios::binary);
+	const char * filename = "test_data/test.sml";
+	std::ifstream ifs(filename, std::ios::in|std::ios::binary);
 
 	if (ifs)
 	{
@@ -19,6 +20,10 @@ int main(int argc, char* argv[])
 		std::stringstream ss;
 
 		w.writeValue(std::cout, v);
+	}
+	else
+	{
+		std::cout << "Unable to read " << filename << std::endl;
 	}
 
 	std::cout << "End" << std::endl;
