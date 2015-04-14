@@ -1,18 +1,21 @@
 SML 
 =====
 
-SML is a home-made text format designed for easy human read/write.
-It's a superset of JSON (inspired by QML) with a few handy features:
+Simple Markup Language (sorry I'm lazy)
+
+SML is a home-made text format designed for easy human read/write of data files.
+It's a superset of JSON, inspired by QML, with a few handy features:
 
 - Quotes are optional
 - Commas after values are optional
-- Values can be explicitely typed
+- Values can be explicitely typed by prepending their name
 - '(' and ')' are alternate characters for '[' and ']'
 - C-style comments
 - Optional #format header to identify the contents of a file
 
-The format is not aimed at replacing JSON, but just to give a nicer syntax to write by hand.
-And also because it was fun to write a parser.
+The format is neither aimed at replacing JSON nor being more efficient,
+but just to give a nicer syntax to write by hand, a way to easily embed types, 
+and also because it was fun to write a parser.
 
 Example
 -------
@@ -56,7 +59,7 @@ JSON equivalent:
 		]
 	}
 
-Note: the texture property carries more info than its JSON version
+Notes: the texture property carries more info than its JSON version
 	
 Minified versions:
 
