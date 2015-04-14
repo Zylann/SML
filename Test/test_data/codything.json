@@ -1,0 +1,13 @@
+{
+	"ops":[
+		{"@t":"var", "v":["i", 0]},
+		{"@t":"for", "v":["i", 1, 10]},
+		[
+			{"@t":"print", "v":["Hello World! %i", "i"]},
+			{"@t":"rotateStuff", "v":[45]},
+			{"@t":"if", "v":[{"@t":"equals", "v":["i", 5]}]},
+			{"@t":"break", "v":[]}
+		],
+		{"@t":"print", "v":"Finished"}
+	]
+}
