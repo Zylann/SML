@@ -68,7 +68,7 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 		}
 	}
 
-	return !found;
+	return found;
 }
 
 void Parser::parseNumber(std::istream & input, Value & out_value)
@@ -233,20 +233,28 @@ void Parser::parseArray(std::istream & input, Array & out_value)
 
 	while (next && !input.eof())
 	{
-		c = input.get();
+		const char c = m_lastCharacter;
 
 		switch (c)
 		{
 		case ']':
 		case ')':
 			next = false;
+			m_lastCharacter = input.get();
 			break;
 
 		default:
-			out_value.push_back(Value());
-			if (!parseValue(input, out_value.back()))
+			if (!isWhiteSpace(c))
 			{
-				out_value.pop_back();
+				out_value.push_back(Value());
+				if (!parseValue(input, out_value.back()))
+				{
+					out_value.pop_back();
+				}
+			}
+			else
+			{
+				m_lastCharacter = input.get();
 			}
 			break;
 		}
