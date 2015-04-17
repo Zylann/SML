@@ -15,8 +15,7 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 
 	while (!found && !input.eof())
 	{
-		m_lastCharacter = input.get();
-		const char c = m_lastCharacter;
+		const char c = input.peek();
 
 		switch (c)
 		{
@@ -27,6 +26,7 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 			break;
 
 		case '{':
+			m_lastCharacter = input.get();
 			out_value.resetObject();
 			parseObject(input, *out_value.m_data.pObject);
 			found = true;
@@ -34,12 +34,14 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 
 		case '[':
 		case '(':
+			m_lastCharacter = input.get();
 			out_value.resetArray();
 			parseArray(input, *out_value.m_data.pArray);
 			found = true;
 			break;
 
 		case '"':
+			m_lastCharacter = input.get();
 			out_value.resetString();
 			parseString(input, *out_value.m_data.pString);
 			found = true;
@@ -47,10 +49,12 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 
 		case ' ':
 		case '\t':
+			m_lastCharacter = input.get();
 			break;
 
 		case '\n':
 		case '\r':
+			m_lastCharacter = input.get();
 			break;
 
 		default:
@@ -64,6 +68,10 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 				parseNumber(input, out_value);
 				found = true;
 			}
+			else
+			{
+				m_lastCharacter = input.get();
+			}
 			break;
 		}
 	}
@@ -74,7 +82,10 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 void Parser::parseNumber(std::istream & input, Value & out_value)
 {
 	std::stringstream ss;
-	ss << m_lastCharacter;
+	if (isdigit(m_lastCharacter) || m_lastCharacter == '-')
+	{
+		ss << m_lastCharacter;
+	}
 
 	Type numberType = VT_INT;
 
@@ -129,8 +140,7 @@ void Parser::parseObject(std::istream & input, Object & out_value)
 {
 	while (!input.eof())
 	{
-		m_lastCharacter = input.get();
-		const char c = m_lastCharacter;
+		const char c = input.peek();
 
 		if (isalpha(c) || c == '"')
 		{
@@ -160,35 +170,47 @@ void Parser::parseObject(std::istream & input, Object & out_value)
 		{
 			break;
 		}
+		else
+		{
+			m_lastCharacter = input.get();
+		}
 	}
 }
 
-/// \brief Starts after an alphanumeric character and stops after the first non-key character.
+/// \brief Starts at a begin quote or an alphanumeric character, ends at a closing quote or non-alphanumeric character
 void Parser::parseKey(std::istream & input, std::string & out_value, bool allowSpaces)
 {
-	out_value = m_lastCharacter;
+	//out_value = m_lastCharacter;
 	bool next = true;
 	while (next && !input.eof())
 	{
-		m_lastCharacter = input.get();
-		const char c = m_lastCharacter;
+		const char c = input.peek();
 
 		switch (c)
 		{
 		case '"':
-			next = false;
+			if (m_lastCharacter == '"')
+				next = false;
+			else
+				m_lastCharacter = input.get();
 			break;
 
 		case ' ':
 			if (allowSpaces)
+			{
 				out_value += c;
+				m_lastCharacter = input.get();
+			}
 			else
 				next = false;
 			break;
 
 		default:
 			if (isKeyChar(c))
+			{
 				out_value += c;
+				m_lastCharacter = input.get();
+			}
 			else
 				next = false;
 			break;
@@ -216,6 +238,7 @@ void Parser::parseTypedObject(std::istream & input, Value & out_value)
 	}
 	else
 	{
+		// TODO FIXME There is a leading space in type names!
 		// This is a custom typed object
 		out_value.resetTypedObject();
 		CustomObject & o = *out_value.m_data.pCustom;
