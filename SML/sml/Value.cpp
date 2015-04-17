@@ -155,6 +155,53 @@ Value & Value::operator[](const std::string & key)
 	return a[key];
 }
 
+Value & Value::operator=(const Value & rhs)
+{
+	// TODO Break this into functions so they can be used individually?
+	switch (m_type)
+	{
+		case VT_STRING:
+			setString(*rhs.m_data.pString);
+			break;
+
+		case VT_ARRAY:
+		{
+			resetArray();
+			Array & src = *rhs.m_data.pArray;
+			Array & dst = *m_data.pArray;
+			for (unsigned int i = 0; i < src.size(); ++i)
+			{
+				dst[i] = src[i];
+			}
+		}
+			break;
+
+		case VT_OBJECT:
+		{
+			resetObject();
+			Object & src = *rhs.m_data.pObject;
+			Object & dst = *m_data.pObject;
+			for (auto it = src.begin(); it != src.end(); ++it)
+			{
+				dst[it->first] = it->second;
+			}
+		}
+			break;
+
+		case VT_TYPEDOBJECT:
+			resetTypedObject();
+			m_data.pCustom->typeName = rhs.m_data.pCustom->typeName;
+			m_data.pCustom->value = rhs.m_data.pCustom->value;
+			break;
+
+		default:
+			m_data = rhs.m_data;
+			break;
+	}
+
+	return *this;
+}
+
 std::string toString(Type t)
 {
 	switch (t)

@@ -71,8 +71,9 @@ public:
 	Value & operator[](size_t i);
 	Value & operator[](const std::string & key);
 
-	// TODO Copy operator
 	// TODO Copy constructor
+
+	Value & operator=(const Value & rhs);
 
 private:
 	void resetTypedObject();
@@ -93,7 +94,7 @@ private:
 		String * pString;
 		Array * pArray;
 		Object * pObject;
-		TypedObject * pCustom;
+		TypedObject * pCustom; // TODO Should be pTypedObject
 	};
 
 	Type m_type;
