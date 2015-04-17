@@ -1,7 +1,8 @@
 #ifndef __HEADER_SML_CONFIG__
 #define __HEADER_SML_CONFIG__
 
-// If you want to use this project as a dynamic library, set the appropriate value to this macro.
+// If you want to use this project as a dynamic library, 
+// set the appropriate value to this macro in your build options.
 #ifndef SML_EXPORT
 #define SML_EXPORT
 #endif
