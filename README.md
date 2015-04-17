@@ -32,7 +32,8 @@ SML:
 			Sprite {
 				material: {
 					shader: "emissive"
-					texture: fullpath("C:/game/assets/player.png")
+					texture: "C:/game/assets/player.png"
+					// Or we could write texture: fullpath("...")
 				}
 			}
 		]
@@ -64,8 +65,19 @@ Notes: the texture property carries more info than its JSON version
 Minified versions:
 
 SML:
-	Player{position:(1,2,3),rotation:(0,0,0,1),color:"#ffaa44",children:[Gun,Sprite{material:{shader:"emissive",texture:fullpath("C:/game/assets/player.png")}}]}
+	Player{position:(1,2,3),rotation:(0,0,0,1),color:"#ffaa44",children:[Gun,Sprite{material:{shader:"emissive",texture:"C:/game/assets/player.png"}}]}
 
 JSON:
 	{"type":"Player","position":[1,2,3],"rotation":[0,0,0,1],"color":"#ffaa44","children":[{"type":"Gun"},{"type":"Sprite","material":{"shader":"emissive","u_Texture":"C:/game/assets/player.png"}}]}
 
+
+TODO
+-------
+
+- Errors reporting with line and column number
+- Better comments support
+- #format tag support
+- General optimization
+- Option to include comments into parsed data
+- Unicode
+- TypedObjects without value
