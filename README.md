@@ -71,6 +71,14 @@ JSON:
 	{"type":"Player","position":[1,2,3],"rotation":[0,0,0,1],"color":"#ffaa44","children":[{"type":"Gun"},{"type":"Sprite","material":{"shader":"emissive","u_Texture":"C:/game/assets/player.png"}}]}
 
 
+How to compile
+---------------
+
+You need Premake5: http://premake.github.io/index.html
+Just run it next to the repo's root and it should generate build files for your platform.
+(You can take example on the .bat script for Visual Studio 2013)
+
+
 TODO
 -------
 
