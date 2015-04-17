@@ -15,7 +15,7 @@ private:
 	void writeString(std::ostream & os, const String & s);
 	void writeArray(std::ostream & os, const Array & a);
 	void writeObject(std::ostream & os, const Object & o);
-	void writeTypedObject(std::ostream & os, const CustomObject & to);
+	void writeTypedObject(std::ostream & os, const TypedObject & to);
 	void writeSeparator(std::ostream & os);
 
 };

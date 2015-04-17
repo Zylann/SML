@@ -23,7 +23,7 @@ void Writer::writeValue(std::ostream & os, const Value & value)
 		writeObject(os, value.getObject());
 		break;
 
-	case VT_CUSTOM:
+	case VT_TYPEDOBJECT:
 		writeTypedObject(os, value.getTypedObject());
 		break;
 
@@ -75,7 +75,7 @@ void Writer::writeObject(std::ostream & os, const Object & o)
 	os << "}";
 }
 
-void Writer::writeTypedObject(std::ostream & os, const CustomObject & to)
+void Writer::writeTypedObject(std::ostream & os, const TypedObject & to)
 {
 	os << to.typeName;
 	writeValue(os, to.value);

@@ -18,7 +18,7 @@ typedef std::unordered_map<std::string, Value> Object;
 typedef double real;
 
 class Parser;
-struct CustomObject;
+struct TypedObject;
 
 enum Type
 {
@@ -29,7 +29,7 @@ enum Type
 	VT_STRING,
 	VT_ARRAY,
 	VT_OBJECT,
-	VT_CUSTOM
+	VT_TYPEDOBJECT
 };
 
 class SML_EXPORT Value
@@ -66,7 +66,7 @@ public:
 	const String & getString() const;
 	const Array & getArray() const;
 	const Object & getObject() const;
-	const CustomObject & getTypedObject() const;
+	const TypedObject & getTypedObject() const;
 
 	Value & operator[](size_t i);
 	Value & operator[](const std::string & key);
@@ -83,7 +83,7 @@ private:
 	static const String defaultString;
 	static const Array defaultArray;
 	static const Object defaultObject;
-	static const CustomObject defaultCustomObject;
+	static const TypedObject defaultTypedObject;
 
 	union Data
 	{
@@ -93,7 +93,7 @@ private:
 		String * pString;
 		Array * pArray;
 		Object * pObject;
-		CustomObject * pCustom;
+		TypedObject * pCustom;
 	};
 
 	Type m_type;
@@ -101,7 +101,7 @@ private:
 
 };
 
-struct CustomObject
+struct TypedObject
 {
 	std::string typeName;
 	Value value;

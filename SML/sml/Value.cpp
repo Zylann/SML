@@ -7,7 +7,7 @@ namespace sml
 const String Value::defaultString;
 const Array Value::defaultArray;
 const Object Value::defaultObject;
-const CustomObject Value::defaultCustomObject;
+const TypedObject Value::defaultTypedObject;
 
 void Value::loadFromStream(std::istream & input)
 {
@@ -28,7 +28,7 @@ void Value::reset()
 	case VT_OBJECT:
 		delete m_data.pObject;
 		break;
-	case VT_CUSTOM:
+	case VT_TYPEDOBJECT:
 		delete m_data.pCustom;
 		break;
 	default:
@@ -55,8 +55,8 @@ void Value::resetObject()
 void Value::resetTypedObject()
 {
 	reset();
-	m_data.pCustom = new CustomObject();
-	m_type = VT_CUSTOM;
+	m_data.pCustom = new TypedObject();
+	m_type = VT_TYPEDOBJECT;
 }
 
 void Value::resetString()
@@ -132,9 +132,9 @@ const Object & Value::getObject() const
 	return m_type == VT_OBJECT ? *m_data.pObject : defaultObject;
 }
 
-const CustomObject & Value::getTypedObject() const
+const TypedObject & Value::getTypedObject() const
 {
-	return m_type == VT_CUSTOM ? *m_data.pCustom : defaultCustomObject;
+	return m_type == VT_TYPEDOBJECT ? *m_data.pCustom : defaultTypedObject;
 }
 
 Value & Value::operator[](size_t i)
@@ -165,7 +165,7 @@ std::string toString(Type t)
 	case VT_STRING: return "String";
 	case VT_ARRAY: return "Array";
 	case VT_OBJECT: return "Object";
-	case VT_CUSTOM: return "Custom";
+	case VT_TYPEDOBJECT: return "Custom";
 	default: return "Null";
 	}
 }

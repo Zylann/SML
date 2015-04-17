@@ -241,7 +241,7 @@ void Parser::parseTypedObject(std::istream & input, Value & out_value)
 		// TODO FIXME There is a leading space in type names!
 		// This is a custom typed object
 		out_value.resetTypedObject();
-		CustomObject & o = *out_value.m_data.pCustom;
+		TypedObject & o = *out_value.m_data.pCustom;
 		o.typeName = typeKey;
 		// Parse value
 		// TODO Can the value be a typed object itself?
