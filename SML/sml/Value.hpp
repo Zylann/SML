@@ -41,6 +41,8 @@ public:
 		memset(&m_data, 0, sizeof(Data));
 	}
 
+	Value(const Value & other);
+
 	~Value()
 	{
 		reset();

@@ -9,6 +9,11 @@ const Array Value::defaultArray;
 const Object Value::defaultObject;
 const TypedObject Value::defaultTypedObject;
 
+Value::Value(const Value & other)
+{
+	*this = other;
+}
+
 void Value::loadFromStream(std::istream & input)
 {
 	Parser parser;
