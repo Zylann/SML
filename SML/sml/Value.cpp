@@ -200,6 +200,7 @@ Value & Value::operator=(const Value & rhs)
 			break;
 
 		default:
+			m_type = rhs.m_type;
 			m_data = rhs.m_data;
 			break;
 	}
