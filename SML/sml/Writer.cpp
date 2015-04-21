@@ -7,7 +7,10 @@ void Writer::writeValue(std::ostream & os, const Value & value)
 {
 	switch (value.getType())
 	{
-	case VT_BOOL: os << value.getBool(); break;
+	case VT_BOOL:
+		writeBool(os, value.getBool());
+		break;
+
 	case VT_INT: os << value.getInt(); break;
 	case VT_REAL: os << value.getReal(); break;
 
@@ -31,6 +34,14 @@ void Writer::writeValue(std::ostream & os, const Value & value)
 		os << "null";
 		break;
 	}
+}
+
+void Writer::writeBool(std::ostream & os, bool v)
+{
+	if (v)
+		os << "true";
+	else
+		os << "false";
 }
 
 void Writer::writeString(std::ostream & os, const String & s)
@@ -86,5 +97,5 @@ void Writer::writeSeparator(std::ostream & os)
 	os << ',';
 }
 
-
 } // namespace sml
+
