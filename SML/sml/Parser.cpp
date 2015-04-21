@@ -70,6 +70,7 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 			}
 			else
 			{
+				// Value not found
 				m_lastCharacter = input.get();
 			}
 			break;
@@ -82,17 +83,19 @@ bool Parser::parseValue(std::istream & input, Value & out_value)
 void Parser::parseNumber(std::istream & input, Value & out_value)
 {
 	std::stringstream ss;
-	if (isdigit(m_lastCharacter) || m_lastCharacter == '-')
-	{
-		ss << m_lastCharacter;
-	}
+	//const char lastChar = input.peek();
+	//if (isdigit(lastChar) || lastChar == '-')
+	//{
+	//	ss << lastChar;
+	//}
 
 	Type numberType = VT_INT;
 
 	while (!input.eof())
 	{
-		m_lastCharacter = input.get();
-		const char c = m_lastCharacter;
+		const char c = input.peek();
+		//m_lastCharacter = input.get();
+		//const char c = m_lastCharacter;
 
 		if (!isNumberChar(c))
 		{
@@ -105,6 +108,7 @@ void Parser::parseNumber(std::istream & input, Value & out_value)
 		}
 
 		ss << c;
+		m_lastCharacter = input.get();
 	}
 
 	out_value.reset();
@@ -160,14 +164,16 @@ void Parser::parseObject(std::istream & input, Object & out_value)
 			parseValue(input, value);
 
 			// If the value parsing encountered the end of the object
-			if (m_lastCharacter == '}')
-			{
-				m_lastCharacter = input.get();
-				break;
-			}
+			//if (m_lastCharacter == '}')
+			//{
+			//	m_lastCharacter = input.get();
+			//	break;
+			//}
 		}
 		else if (c == '}')
 		{
+			// End of object
+			m_lastCharacter = input.get();
 			break;
 		}
 		else
@@ -251,18 +257,25 @@ void Parser::parseTypedObject(std::istream & input, Value & out_value)
 
 void Parser::parseArray(std::istream & input, Array & out_value)
 {
-	char c;
 	bool next = true;
-
 	while (next && !input.eof())
 	{
-		const char c = m_lastCharacter;
+		const char c = input.peek();
 
 		switch (c)
 		{
 		case ']':
 		case ')':
 			next = false;
+			m_lastCharacter = input.get();
+			break;
+
+		case '[':
+		case '(':
+			m_lastCharacter = input.get();
+			break;
+
+		case ',':
 			m_lastCharacter = input.get();
 			break;
 
